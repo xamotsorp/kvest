@@ -7,6 +7,7 @@ const COOKIE_OPTS = {
   httpOnly: true,
   signed: true,
   sameSite: 'lax',
+  secure: process.env.COOKIE_SECURE === '1',
   maxAge: 1000 * 60 * 60 * 12 // 12 hours
 };
 
