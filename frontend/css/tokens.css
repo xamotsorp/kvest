@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --paper:#070B16;
+  --paper-deep:#10162C;
+  --ink:#E9EFFD;
+  --ink-soft:#8A94B8;
+  --rose:#FF4FD8;
+  --teal:#2FE6FF;
+  --gold:#FFC14D;
+  --card:rgba(18,24,44,0.7);
+  --line:rgba(120,150,220,0.25);
+  --radius:18px;
+}
