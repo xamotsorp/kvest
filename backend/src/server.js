@@ -11,6 +11,9 @@ const registerRoutes = require('./routes/register');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// nginx is the only hop in front of us, so trust its X-Forwarded-For for rate limiting by real client IP
+app.set('trust proxy', 1);
+
 if (!process.env.SESSION_SECRET) {
   console.warn('SESSION_SECRET is not set — cookies will not be secure. Set it in .env');
 }

@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const { pool } = require('../db');
 const { requireAdmin } = require('../middleware/auth');
@@ -11,7 +12,16 @@ const COOKIE_OPTS = {
   maxAge: 1000 * 60 * 60 * 12 // 12 hours
 };
 
-router.post('/admin/login', (req, res) => {
+const adminLoginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true,
+  message: { error: 'too_many_attempts' }
+});
+
+router.post('/admin/login', adminLoginLimiter, (req, res) => {
   const { password } = req.body || {};
   if (typeof password === 'string' && password === process.env.ADMIN_PASSWORD) {
     res.cookie('admin_session', '1', COOKIE_OPTS);

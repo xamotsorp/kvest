@@ -28,8 +28,10 @@ export async function render(container) {
       if (res.ok) {
         location.hash = '#/register';
       }
-    } catch (_) {
-      error.textContent = 'Не то. Попробуй ещё раз.';
+    } catch (err) {
+      error.textContent = err.status === 429
+        ? 'Слишком много попыток. Подожди немного и попробуй снова.'
+        : 'Не то. Попробуй ещё раз.';
       input.value = '';
       input.focus();
     }

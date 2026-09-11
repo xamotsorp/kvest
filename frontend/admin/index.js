@@ -35,8 +35,10 @@ function renderLogin(container) {
     try {
       const res = await api.adminLogin(pass.value);
       if (res.ok) await renderDashboard(container);
-    } catch (_) {
-      error.textContent = 'Неверный пароль';
+    } catch (err) {
+      error.textContent = err.status === 429
+        ? 'Слишком много попыток. Подожди немного и попробуй снова.'
+        : 'Неверный пароль';
       pass.value = '';
       pass.focus();
     }

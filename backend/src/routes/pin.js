@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 
 const COOKIE_OPTS = {
@@ -9,7 +10,16 @@ const COOKIE_OPTS = {
   maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
 };
 
-router.post('/pin', (req, res) => {
+const pinLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true,
+  message: { error: 'too_many_attempts' }
+});
+
+router.post('/pin', pinLimiter, (req, res) => {
   const { pin } = req.body || {};
   if (typeof pin === 'string' && pin === process.env.PIN) {
     res.cookie('site_access', '1', COOKIE_OPTS);
